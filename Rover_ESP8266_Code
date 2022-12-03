@@ -1,0 +1,100 @@
+/* Comment this out to disable prints and save space */
+#define BLYNK_PRINT Serial
+
+/* Fill-in your Template ID (only if using Blynk.Cloud) */
+#define BLYNK_TEMPLATE_ID "{your blynk template ID}"
+#define BLYNK_DEVICE_NAME "RoverConnect"
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+
+// You should get Auth Token in the Blynk App.
+// Go to the Project Settings (nut icon).
+char auth[] = "{your blynk auth key}";
+
+// Your WiFi credentials.
+// Set password to "" for open networks.
+char ssid[] = "{your wifi name}";
+char pass[] = "{your wifi password}";
+
+BLYNK_WRITE(V0)
+{
+int pinValue0 = param.asInt();
+digitalWrite(D0,pinValue0);
+digitalWrite(D1,LOW);
+digitalWrite(D2,pinValue0);
+digitalWrite(D3,LOW);
+delay(50);
+}
+
+BLYNK_WRITE(V1)
+{
+int pinValue1 = param.asInt();
+digitalWrite(D0,LOW);
+digitalWrite(D1,pinValue1);
+digitalWrite(D2,LOW);
+digitalWrite(D3,pinValue1);
+delay(50);
+}
+
+BLYNK_WRITE(V2)
+{
+int pinValue2 = param.asInt();
+digitalWrite(D0,LOW);
+digitalWrite(D1,LOW);
+digitalWrite(D2,pinValue2);
+digitalWrite(D3,LOW);
+delay(50);
+}
+
+BLYNK_WRITE(V3)
+{
+int pinValue3 = param.asInt();
+digitalWrite(D0,pinValue3);
+digitalWrite(D1,LOW);
+digitalWrite(D2,LOW);
+digitalWrite(D3,LOW);
+delay(50);
+}
+
+BLYNK_WRITE(V4)
+{
+int pinValue4 = param.asInt();
+// You can also use:
+// String i = param.asStr();
+// double d = param.asDouble();
+analogWrite(D5, pinValue4);
+Blynk.virtualWrite(V4, pinValue4);
+Serial.print("Slider value is: ");
+Serial.println(pinValue4);
+}
+
+/*BLYNK_WRITE(V7)
+{
+int x = param[0].asInt();
+int y = param[1].asInt();
+whil
+
+}*/
+
+void setup()
+{
+// Debug console
+Serial.begin(115200);
+
+Blynk.begin(auth, ssid, pass);
+// You can also specify server:
+//Blynk.begin(auth, ssid, pass, "blynk-cloud.com", 80);
+//Blynk.begin(auth, ssid, pass, IPAddress(192,168,1,100), 8080);
+
+pinMode(D0,OUTPUT);
+pinMode(D1,OUTPUT);
+pinMode(D2,OUTPUT);
+pinMode(D3,OUTPUT);
+
+}
+
+void loop()
+{
+Blynk.run();
+}
